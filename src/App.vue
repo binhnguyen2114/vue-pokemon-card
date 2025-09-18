@@ -1,11 +1,11 @@
 <template>
   <interact-screen
-    v-if="this.statusMatch === 'match'"
+    v-if="statusMatch === 'match'"
     :cardsContext="settings.cardsContext"
     @onFinish="onGetResult"
   />
   <result-screen
-    v-else-if="this.statusMatch === 'result'"
+    v-else-if="statusMatch === 'result'"
     :timer="timer"
     @onStartAgain="statusMatch = 'default'"
   />

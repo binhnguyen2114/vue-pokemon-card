@@ -13,7 +13,7 @@
       <card-memmory
         v-for="(card, index) in cardsContext"
         :key="index"
-        :ref="`card-${index}`"
+        :ref="(el) => setCardRef(el, index)"
         :cardsContext="cardsContext"
         :imgBackFaceUrl="`images/${card}.png`"
         :card="{ index, value: card }"
@@ -41,9 +41,15 @@ export default {
   data() {
     return {
       rules: [],
+      cardRefs: {},
     };
   },
   methods: {
+    setCardRef(el, index) {
+      if (el) {
+        this.cardRefs[`card-${index}`] = el;
+      }
+    },
     checkRule(card) {
       console.log(card);
       if (this.rules.length === 2) return false;
@@ -52,16 +58,16 @@ export default {
       // } else return false;
       this.rules.push(card);
       if (this.rules.length === 1) {
-        this.$refs[`card-${this.rules[0].index}`][0].onEnabledDisabledMode();
+        this.cardRefs[`card-${this.rules[0].index}`].onEnabledDisabledMode();
       }
       if (
         this.rules.length === 2 &&
         this.rules[0].value === this.rules[1].value
       ) {
         console.log("Right...");
-        // this.$refs[`card-${this.rules[0].index}`][0].onEnabledDisabledMode();
-        console.log(this.$refs[`card-${this.rules[0].index}`]);
-        this.$refs[`card-${this.rules[1].index}`][0].onEnabledDisabledMode();
+        // this.cardRefs[`card-${this.rules[0].index}`].onEnabledDisabledMode();
+        console.log(this.cardRefs[`card-${this.rules[0].index}`]);
+        this.cardRefs[`card-${this.rules[1].index}`].onEnabledDisabledMode();
         this.rules = [];
 
         const disabledElements = document.querySelectorAll(
@@ -80,12 +86,12 @@ export default {
       ) {
         console.log("wrong!");
         console.log(
-          this.$refs[`card-${this.rules[0].index}`][0].onFlipBackCard
+          this.cardRefs[`card-${this.rules[0].index}`].onFlipBackCard
         );
         setTimeout(() => {
-          this.$refs[`card-${this.rules[0].index}`][0].onFlipBackCard();
-          this.$refs[`card-${this.rules[1].index}`][0].onFlipBackCard();
-          this.$refs[`card-${this.rules[0].index}`][0].onEnabledDisabledMode();
+          this.cardRefs[`card-${this.rules[0].index}`].onFlipBackCard();
+          this.cardRefs[`card-${this.rules[1].index}`].onFlipBackCard();
+          this.cardRefs[`card-${this.rules[0].index}`].onEnabledDisabledMode();
           this.rules = [];
         }, 800);
       } else return false;

@@ -47,6 +47,8 @@
 
 <script>
 export default {
+  name: 'MemoryCard',
+  emits: ['onFlip'],
   props: {
     card: {
       type: [Array, String, Number, Object],
@@ -72,6 +74,9 @@ export default {
     };
   },
   methods: {
+    getImageUrl(imagePath) {
+      return new URL(`../assets/${imagePath}`, import.meta.url).href;
+    },
     onToggleFlipCard() {
       if (this.rules.length >= 2) return;
       if (this.isDisabled) return;
